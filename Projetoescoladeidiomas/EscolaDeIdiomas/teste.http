@@ -1,0 +1,88 @@
+### Listar todos os alunos
+GET http://localhost:5139/alunos
+
+### Adicionar um novo aluno
+POST http://localhost:5139/alunos
+Content-Type: application/json
+
+{
+  "nome": "Andre Guedes"
+}
+
+### Atualizar o nome de um aluno
+PUT http://localhost:5139/alunos/3
+Content-Type: application/json
+
+{
+  "nome": "Eduardo Higuti"
+}
+
+### Excluir um aluno
+DELETE http://localhost:5139/alunos/4
+
+
+### Listar todos os professores
+GET http://localhost:5139/professores
+
+### Adicionar um novo professor
+POST http://localhost:5139/professores
+Content-Type: application/json
+
+{
+  "nome": "Andressa Andrade"
+}
+
+### Atualizar o nome de um professor
+PUT http://localhost:5139/professores/1
+Content-Type: application/json
+
+{
+  "nome": "Prof. Rogerio de Souza Vieira"
+}
+
+### Excluir um professor
+DELETE http://localhost:5139/professores/2
+
+
+### Listar todas as matérias
+GET http://localhost:5139/materias
+
+### Adicionar uma nova matéria
+POST http://localhost:5139/materias
+Content-Type: application/json
+
+{
+  "nome": "Artes"
+}
+
+### Atualizar o nome de uma matéria
+PUT http://localhost:5139/materias/2
+Content-Type: application/json
+
+{
+  "nome": "Francês"
+}
+
+### Vincular um professor a uma matéria
+PUT http://localhost:5139/materias/1/vincular-professor/1
+
+
+### Inscrever um aluno em uma matéria
+POST http://localhost:5139/alunos/2/inscrever/1
+
+
+### Atribuir nota a um aluno em uma matéria
+POST http://localhost:5139/alunos/2/materias/1/nota
+Content-Type: application/json
+
+9.5
+
+### Alterar a nota de um aluno em uma matéria
+PUT http://localhost:5139/alunos/2/materias/1/nota
+Content-Type: application/json
+
+8.5
+
+
+### Consultar o boletim de um aluno
+GET http://localhost:5139/alunos/2/boletim
