@@ -13,6 +13,15 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
 });
 
+builder.Services.AddCors(
+    options => 
+        options.AddPolicy("Acesso Total",
+            configs => configs
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod())
+        );
+
 var app = builder.Build();
 
 // CRUD para Alunos
@@ -21,7 +30,7 @@ app.MapGet("/alunos", async ([FromServices] AppDbContext db) =>
     return await db.Alunos.ToListAsync();
 });
 
-app.MapPost("/alunos", async ([FromServices] AppDbContext db, [FromBody] Aluno novoAluno) =>
+app.MapPost("/alunos/cadastrar", async ([FromServices] AppDbContext db, [FromBody] Aluno novoAluno) =>
 {
     if (string.IsNullOrWhiteSpace(novoAluno.Nome))
     {
@@ -34,7 +43,7 @@ app.MapPost("/alunos", async ([FromServices] AppDbContext db, [FromBody] Aluno n
     return Results.Created($"/alunos/{novoAluno.Matricula}", novoAluno);
 });
 
-app.MapPut("/alunos/{matricula:int}", async ([FromServices] AppDbContext db, int matricula, [FromBody] Aluno alunoAtualizado) =>
+app.MapPut("/alunos/editar/{matricula:int}", async ([FromServices] AppDbContext db, int matricula, [FromBody] Aluno alunoAtualizado) =>
 {
     var aluno = await db.Alunos.FindAsync(matricula);
     if (aluno is null)
@@ -48,7 +57,8 @@ app.MapPut("/alunos/{matricula:int}", async ([FromServices] AppDbContext db, int
     return Results.Ok(aluno);
 });
 
-app.MapDelete("/alunos/{matricula:int}", async ([FromServices] AppDbContext db, int matricula) =>
+
+app.MapDelete("/alunos/excluir/{matricula:int}", async ([FromServices] AppDbContext db, int matricula) =>
 {
     var aluno = await db.Alunos.FindAsync(matricula);
     if (aluno is null)
@@ -68,7 +78,7 @@ app.MapGet("/professores", async ([FromServices] AppDbContext db) =>
     return await db.Professores.ToListAsync();
 });
 
-app.MapPost("/professores", async ([FromServices] AppDbContext db, [FromBody] Professor novoProfessor) =>
+app.MapPost("/professores/cadastrar", async ([FromServices] AppDbContext db, [FromBody] Professor novoProfessor) =>
 {
     if (string.IsNullOrWhiteSpace(novoProfessor.Nome))
     {
@@ -82,7 +92,7 @@ app.MapPost("/professores", async ([FromServices] AppDbContext db, [FromBody] Pr
 });
 
 //alterar nome professor
-app.MapPut("/professores/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Professor professorAtualizado) =>
+app.MapPut("/professores/editar/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Professor professorAtualizado) =>
 {
     var professor = await db.Professores.FindAsync(id);
     if (professor == null)
@@ -97,7 +107,7 @@ app.MapPut("/professores/{id:int}", async ([FromServices] AppDbContext db, int i
 });
 
 //Exluir professor
-app.MapDelete("/professores/{id:int}", async ([FromServices] AppDbContext db, int id) =>
+app.MapDelete("/professores/excluir/{id:int}", async ([FromServices] AppDbContext db, int id) =>
 {
     var professor = await db.Professores.FindAsync(id);
     if (professor == null)
@@ -147,7 +157,7 @@ app.MapGet("/materias", async ([FromServices] AppDbContext db) =>
         .ToListAsync();
 });
 
-app.MapPost("/materias", async ([FromServices] AppDbContext db, [FromBody] Materia novaMateria) =>
+app.MapPost("/materias/cadastrar", async ([FromServices] AppDbContext db, [FromBody] Materia novaMateria) =>
 {
     if (string.IsNullOrWhiteSpace(novaMateria.Nome))
     {
@@ -161,7 +171,7 @@ app.MapPost("/materias", async ([FromServices] AppDbContext db, [FromBody] Mater
 });
 
 //Editar Materia
-app.MapPut("/materias/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Materia materiaAtualizada) =>
+app.MapPut("/materias/editar/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Materia materiaAtualizada) =>
 {
     var materia = await db.Materias.FindAsync(id);
     if (materia == null)
@@ -288,4 +298,5 @@ app.MapGet("/alunos/{matricula:int}/boletim", async ([FromServices] AppDbContext
     return Results.Ok(boletim);
 });
 
+app.UseCors("Acesso Total");
 app.Run();

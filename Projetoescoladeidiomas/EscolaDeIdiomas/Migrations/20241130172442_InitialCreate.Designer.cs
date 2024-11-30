@@ -10,8 +10,8 @@ using ProjetoEscolaDeIdiomas.Models;
 namespace EscolaDeIdiomas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241122193145_RemoveOldTables")]
-    partial class RemoveOldTables
+    [Migration("20241130172442_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
