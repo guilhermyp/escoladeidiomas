@@ -10,8 +10,8 @@ using ProjetoEscolaDeIdiomas.Models;
 namespace EscolaDeIdiomas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241130172442_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241130194816_ChangeProfessorAtribute")]
+    partial class ChangeProfessorAtribute
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace EscolaDeIdiomas.Migrations
 
             modelBuilder.Entity("ProjetoEscolaDeIdiomas.Models.Professor", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("professorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -85,7 +85,7 @@ namespace EscolaDeIdiomas.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("professorId");
 
                     b.ToTable("Professores");
                 });

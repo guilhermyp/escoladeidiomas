@@ -57,7 +57,6 @@ app.MapPut("/alunos/editar/{matricula:int}", async ([FromServices] AppDbContext 
     return Results.Ok(aluno);
 });
 
-
 app.MapDelete("/alunos/excluir/{matricula:int}", async ([FromServices] AppDbContext db, int matricula) =>
 {
     var aluno = await db.Alunos.FindAsync(matricula);
@@ -88,10 +87,9 @@ app.MapPost("/professores/cadastrar", async ([FromServices] AppDbContext db, [Fr
     db.Professores.Add(novoProfessor);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/professores/{novoProfessor.Id}", novoProfessor);
+    return Results.Created($"/professores/{novoProfessor.professorId}", novoProfessor);
 });
 
-//alterar nome professor
 app.MapPut("/professores/editar/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Professor professorAtualizado) =>
 {
     var professor = await db.Professores.FindAsync(id);
@@ -106,7 +104,6 @@ app.MapPut("/professores/editar/{id:int}", async ([FromServices] AppDbContext db
     return Results.Ok(professor);
 });
 
-//Exluir professor
 app.MapDelete("/professores/excluir/{id:int}", async ([FromServices] AppDbContext db, int id) =>
 {
     var professor = await db.Professores.FindAsync(id);
@@ -120,7 +117,6 @@ app.MapDelete("/professores/excluir/{id:int}", async ([FromServices] AppDbContex
 
     return Results.Ok($"Professor com ID {id} foi excluído.");
 });
-
 
 //vincular professor a matéria
 app.MapPut("/materias/{materiaId:int}/vincular-professor/{professorId:int}", async ([FromServices] AppDbContext db, int materiaId, int professorId) =>

@@ -1,11 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
 namespace ProjetoEscolaDeIdiomas.Models
 {
     public class Professor
     {
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int professorId { get; set; }
 
         [Required]
         [MaxLength(100)]

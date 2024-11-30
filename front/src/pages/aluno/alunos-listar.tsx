@@ -7,7 +7,7 @@ function AlunosListar() {
 
     useEffect(() => {
         carregarAlunos();
-    });
+    }, []);
 
     function carregarAlunos() {
         axios.get<Aluno[]>("http://localhost:5139/alunos")

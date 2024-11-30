@@ -4,6 +4,10 @@ import AlunosListar from './pages/aluno/alunos-listar';
 import AlunosCadastrar from './pages/aluno/alunos-cadastrar';
 import AlunosEditar from './pages/aluno/alunos-editar';
 import AlunosDeletar from './pages/aluno/alunos-deletar';
+import ProfessoresCadastrar from './pages/professor/professores-cadastrar';
+import ProfessoresListar from './pages/professor/professores-listar';
+import ProfessoresEditar from './pages/professor/professores-editar';
+import ProfessoresDeletar from './pages/professor/professores-deletar';
 
 function App() {
   return (
@@ -12,7 +16,7 @@ function App() {
         <nav>
           <ul>
             <li>
-              <Link to={"/"}>Home</Link>
+              <Link to={"/alunos"}>Listar Alunos</Link>
             </li>
             <li>
               <Link to={"/alunos/cadastar"}>Cadastrar Aluno</Link>
@@ -25,11 +29,33 @@ function App() {
             </li>
           </ul>
         </nav>
+        <nav>
+          <ul>
+            <li>
+              <Link to={"/professores"}>Listar Professores</Link>
+            </li>
+            <li>
+              <Link to={"/professores/cadastar"}>Cadastrar Professor</Link>
+            </li>
+            <li>
+              <Link to={"/professores/editar"}>Editar Professor</Link>
+            </li>
+            <li>
+              <Link to={"/professores/deletar"}>Deletar Professor</Link>
+            </li>
+          </ul>
+        </nav>
         <Routes>
-          <Route path="/" element={<AlunosListar/>}></Route>
+          <Route path="/alunos" element={<AlunosListar/>}></Route>
+
           <Route path='/alunos/cadastar' element={<AlunosCadastrar/>}></Route>
           <Route path='/alunos/editar' element={<AlunosEditar/>}></Route>
           <Route path='/alunos/deletar' element={<AlunosDeletar/>}></Route>
+          
+          <Route path="/professores" element={<ProfessoresListar/>}></Route>
+          <Route path='/professores/cadastar' element={<ProfessoresCadastrar/>}></Route>
+          <Route path='/professores/editar' element={<ProfessoresEditar/>}></Route>
+          <Route path='/professores/deletar' element={<ProfessoresDeletar/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
