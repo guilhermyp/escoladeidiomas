@@ -7,7 +7,7 @@ builder.Services.AddDbContext<AppDbContext>();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
-// Configuração para aceitar requisições JSON
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
@@ -24,7 +24,7 @@ builder.Services.AddCors(
 
 var app = builder.Build();
 
-// CRUD para Alunos
+
 app.MapGet("/alunos", async ([FromServices] AppDbContext db) =>
 {
     return await db.Alunos.ToListAsync();
@@ -71,11 +71,11 @@ app.MapDelete("/alunos/excluir/{matricula:int}", async ([FromServices] AppDbCont
     return Results.Ok($"Aluno com matrícula {matricula} foi excluído.");
 });
 
-// CRUD para Professores
+
 app.MapGet("/professores", async ([FromServices] AppDbContext db) =>
 {
     return await db.Professores
-        .Include(p => p.Materias) // Certifique-se de que isso retorna corretamente as matérias vinculadas
+        .Include(p => p.Materias) 
         .Select(p => new
         {
             ProfessorId = p.ProfessorId,
@@ -97,7 +97,7 @@ app.MapPost("/professores/cadastrar", async ([FromServices] AppDbContext db, [Fr
     db.Professores.Add(novoProfessor);
     await db.SaveChangesAsync();
 
-    // Utilize o Id do professor para criar a URL
+    
     return Results.Created($"/professores/{novoProfessor.ProfessorId}", novoProfessor);
 });
 
@@ -129,7 +129,7 @@ app.MapDelete("/professores/excluir/{id:int}", async ([FromServices] AppDbContex
     return Results.Ok($"Professor com ID {id} foi excluído.");
 });
 
-//vincular professor a matéria
+
 app.MapPut("/materias/{materiaId:int}/vincular-professor/{professorId:int}", async ([FromServices] AppDbContext db, int materiaId, int professorId) =>
 {
     var materia = await db.Materias.FindAsync(materiaId);
@@ -150,7 +150,7 @@ app.MapPut("/materias/{materiaId:int}/vincular-professor/{professorId:int}", asy
     return Results.Ok($"Professor com ID {professorId} foi vinculado à matéria com ID {materiaId}.");
 });
 
-// CRUD para Matérias
+
 app.MapGet("/materias", async ([FromServices] AppDbContext db) =>
 {
     return await db.Materias
@@ -177,7 +177,7 @@ app.MapPost("/materias/cadastrar", async ([FromServices] AppDbContext db, [FromB
     return Results.Created($"/materias/{novaMateria.Id}", novaMateria);
 });
 
-//Editar Materia
+
 app.MapPut("/materias/editar/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Materia materiaAtualizada) =>
 {
     var materia = await db.Materias.FindAsync(id);
@@ -193,7 +193,7 @@ app.MapPut("/materias/editar/{id:int}", async ([FromServices] AppDbContext db, i
 });
 
 
-//deletar materia
+
 app.MapDelete("/materias/{id:int}", async ([FromServices] AppDbContext db, int id) =>
 {
     var materia = await db.Materias.FindAsync(id);
@@ -210,7 +210,7 @@ app.MapDelete("/materias/{id:int}", async ([FromServices] AppDbContext db, int i
 
 
 
-// Inscrever aluno em matéria
+
 app.MapPost("/alunos/{matricula:int}/inscrever/{materiaId:int}", async ([FromServices] AppDbContext db, int matricula, int materiaId) =>
 {
     var aluno = await db.Alunos.FindAsync(matricula);
@@ -239,7 +239,7 @@ app.MapPost("/alunos/{matricula:int}/inscrever/{materiaId:int}", async ([FromSer
 
 
 
-// Atribuir nota a um aluno em uma matéria
+
 app.MapPost("/alunos/{matricula:int}/materias/{materiaId:int}/nota", async ([FromServices] AppDbContext db, int matricula, int materiaId, [FromBody] double nota) =>
 {
     if (nota < 0 || nota > 10)
@@ -259,17 +259,17 @@ app.MapPost("/alunos/{matricula:int}/materias/{materiaId:int}/nota", async ([Fro
     return Results.Ok($"Nota {nota} atribuída ao aluno {matricula} na matéria {materiaId}.");
 });
 
-//alterar nota do aluno na materia
+
 
 app.MapPut("/alunos/{matricula:int}/materias/{materiaId:int}/nota", async (HttpContext context, [FromServices] AppDbContext db, int matricula, int materiaId) =>
 {
-    // Verifica se o método é PUT
+   
     if (context.Request.Method != HttpMethods.Put)
     {
         return Results.StatusCode(405);
     }
 
-    // Lê o valor da nova nota
+    
     double novaNota;
     try
     {
@@ -299,7 +299,7 @@ app.MapPut("/alunos/{matricula:int}/materias/{materiaId:int}/nota", async (HttpC
 
 
 
-// Consultar boletim de um aluno
+
 app.MapGet("/alunos/{matricula:int}/boletim", async ([FromServices] AppDbContext db, int matricula) =>
 {
     var aluno = await db.Alunos

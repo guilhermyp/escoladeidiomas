@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
+
 
 namespace ProjetoEscolaDeIdiomas.Models
 {
@@ -14,6 +14,6 @@ namespace ProjetoEscolaDeIdiomas.Models
         [MaxLength(100)]
         public string Nome { get; set; } = string.Empty; 
 
-        public ICollection<Materia> Materias { get; set; }
+        public required ICollection<Materia> Materias { get; set; }
     }
 }

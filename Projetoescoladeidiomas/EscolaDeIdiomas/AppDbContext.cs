@@ -4,12 +4,12 @@ namespace ProjetoEscolaDeIdiomas.Models;
 
 public class AppDbContext : DbContext
 {
-    public DbSet<Aluno> Alunos { get; set; }
-    public DbSet<Materia> Materias { get; set; }
-    public DbSet<AlunoMateria> AlunoMaterias { get; set; } //relação entre aluno + materia
-    public DbSet<Professor> Professores { get; set; }
+    public required DbSet<Aluno> Alunos { get; set; }
+    public required DbSet<Materia> Materias { get; set; }
+    public required DbSet<AlunoMateria> AlunoMaterias { get; set; } 
+    public required DbSet<Professor> Professores { get; set; }
 
-    // Config. do BD 
+    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)

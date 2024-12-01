@@ -2,18 +2,18 @@ import axios from "axios";
 import { useState } from "react";
 
 function MateriasDeletar() {
-    const [materiaId, setMateriaId] = useState(""); // Estado para armazenar o ID da matéria
+    const [materiaId, setMateriaId] = useState(""); 
 
     function deletarMateria(event: React.FormEvent) {
-        event.preventDefault(); // Previne o comportamento padrão do formulário
+        event.preventDefault(); 
         axios
-            .delete(`http://localhost:5139/materias/${materiaId}`) // Endpoint para excluir matéria
+            .delete(`http://localhost:5139/materias/${materiaId}`) 
             .then((response) => {
-                console.log(response.data); // Exibe a resposta no console
+                console.log(response.data); 
                 alert(`Matéria com ID ${materiaId} excluída com sucesso!`);
             })
             .catch((err) => {
-                console.error("Erro ao excluir matéria:", err); // Exibe o erro no console
+                console.error("Erro ao excluir matéria:", err); 
             });
     }
 
@@ -25,8 +25,8 @@ function MateriasDeletar() {
                     <label>Id da Matéria</label>
                     <input
                         type="text"
-                        value={materiaId} // Liga o valor ao estado
-                        onChange={(e) => setMateriaId(e.target.value)} // Atualiza o estado
+                        value={materiaId} 
+                        onChange={(e) => setMateriaId(e.target.value)} 
                         required
                     />
                 </div>
