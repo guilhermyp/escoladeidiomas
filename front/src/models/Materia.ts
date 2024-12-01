@@ -2,8 +2,11 @@ import { Aluno } from "./Aluno";
 import { Professor } from "./Professor";
 
 export interface Materia {
-    materiaId?: string;
+    id?: string;
     nome: string;
-    professor?: Professor;
+    professorId?: number;
+    professor?: String;
     alunos?: Aluno[];
 }
+
+

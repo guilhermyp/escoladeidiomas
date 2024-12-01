@@ -8,12 +8,12 @@ namespace ProjetoEscolaDeIdiomas.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int professorId { get; set; }
+        public int ProfessorId { get; set; }
 
         [Required]
         [MaxLength(100)]
         public string Nome { get; set; } = string.Empty; 
 
-        public ICollection<Materia> Materias { get; set; } = new List<Materia>();
+        public ICollection<Materia> Materias { get; set; }
     }
 }

@@ -74,7 +74,17 @@ app.MapDelete("/alunos/excluir/{matricula:int}", async ([FromServices] AppDbCont
 // CRUD para Professores
 app.MapGet("/professores", async ([FromServices] AppDbContext db) =>
 {
-    return await db.Professores.ToListAsync();
+    return await db.Professores
+        .Include(p => p.Materias) // Certifique-se de que isso retorna corretamente as matérias vinculadas
+        .Select(p => new
+        {
+            ProfessorId = p.ProfessorId,
+            Nome = p.Nome,
+            Materias = p.Materias.Any() 
+                ? string.Join(", ", p.Materias.Select(m => m.Nome)) 
+                : "Sem matérias vinculadas"
+        })
+        .ToListAsync();
 });
 
 app.MapPost("/professores/cadastrar", async ([FromServices] AppDbContext db, [FromBody] Professor novoProfessor) =>
@@ -87,7 +97,8 @@ app.MapPost("/professores/cadastrar", async ([FromServices] AppDbContext db, [Fr
     db.Professores.Add(novoProfessor);
     await db.SaveChangesAsync();
 
-    return Results.Created($"/professores/{novoProfessor.professorId}", novoProfessor);
+    // Utilize o Id do professor para criar a URL
+    return Results.Created($"/professores/{novoProfessor.ProfessorId}", novoProfessor);
 });
 
 app.MapPut("/professores/editar/{id:int}", async ([FromServices] AppDbContext db, int id, [FromBody] Professor professorAtualizado) =>
@@ -143,7 +154,7 @@ app.MapPut("/materias/{materiaId:int}/vincular-professor/{professorId:int}", asy
 app.MapGet("/materias", async ([FromServices] AppDbContext db) =>
 {
     return await db.Materias
-        .Include(m => m.Professor)
+        .Include(m => m.Professor) 
         .Select(m => new
         {
             m.Id,
@@ -180,6 +191,23 @@ app.MapPut("/materias/editar/{id:int}", async ([FromServices] AppDbContext db, i
 
     return Results.Ok(materia);
 });
+
+
+//deletar materia
+app.MapDelete("/materias/{id:int}", async ([FromServices] AppDbContext db, int id) =>
+{
+    var materia = await db.Materias.FindAsync(id);
+    if (materia == null)
+    {
+        return Results.NotFound($"Matéria com ID {id} não encontrada.");
+    }
+
+    db.Materias.Remove(materia);
+    await db.SaveChangesAsync();
+
+    return Results.Ok($"Matéria com ID {id} foi excluída com sucesso.");
+});
+
 
 
 // Inscrever aluno em matéria

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Professor } from "../../models/Professor";
 
 function ProfessoresListar() {
-    const [professor, setProfessor] = useState<Professor[]>([]);
+    const [professores, setProfessores] = useState<Professor[]>([]);
 
     useEffect(() => {
         carregarProfessores();
@@ -12,10 +12,10 @@ function ProfessoresListar() {
     function carregarProfessores() {
         axios.get<Professor[]>("http://localhost:5139/professores")
             .then((response) => {
-                setProfessor(response.data);
+                setProfessores(response.data);
             })
             .catch((err) => {
-                console.log("Erro:" + err);
+                console.error("Erro ao carregar professores:", err);
             });
     }
 
@@ -27,13 +27,15 @@ function ProfessoresListar() {
                     <tr>
                         <th>Id do Professor</th>
                         <th>Nome</th>
+                        <th>Matéria Vinculada</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {professor.map((professor) => (
-                        <tr>
+                    {professores.map((professor) => (
+                        <tr key={professor.professorId}>
                             <td>{professor.professorId}</td>
                             <td>{professor.nome}</td>
+                            <td>{professor.materia || "Nenhuma matéria vinculada"}</td>
                         </tr>
                     ))}
                 </tbody>
