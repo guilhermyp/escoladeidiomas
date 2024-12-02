@@ -14,6 +14,6 @@ namespace ProjetoEscolaDeIdiomas.Models
         [MaxLength(100)]
         public string Nome { get; set; } = string.Empty; 
 
-        public required ICollection<Materia> Materias { get; set; }
+        public ICollection<Materia>? Materias { get; set; }
     }
 }
