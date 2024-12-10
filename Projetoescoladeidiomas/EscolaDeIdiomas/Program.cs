@@ -48,7 +48,7 @@ app.MapPut("/alunos/editar/{matricula:int}", async ([FromServices] AppDbContext 
     var aluno = await db.Alunos.FindAsync(matricula);
     if (aluno is null)
     {
-        return Results.NotFound($"Aluno com matrícula {matricula} não encontrado.");
+        return Results.NotFound($"Aluno com matrícula {matricula} não encontrado!");
     }
 
     aluno.Nome = alunoAtualizado.Nome;
