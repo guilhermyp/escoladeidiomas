@@ -34,7 +34,7 @@ app.MapPost("/alunos/cadastrar", async ([FromServices] AppDbContext db, [FromBod
 {
     if (string.IsNullOrWhiteSpace(novoAluno.Nome))
     {
-        return Results.BadRequest("O nome do aluno é obrigatório.");
+        return Results.BadRequest("O nome do aluno é obrigatório!");
     }
 
     db.Alunos.Add(novoAluno);

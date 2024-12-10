@@ -11,7 +11,7 @@ public class Aluno
     public int Matricula { get; set; } 
 
     [Required(ErrorMessage = "O nome do aluno é obrigatório.")]
-    [MaxLength(100, ErrorMessage = "O nome pode ter no máximo 100 caracteres.")]
+    [MaxLength(100, ErrorMessage = "O nome pode ter apenas máximo 100 caracteres.")]
     public string Nome { get; set; } = string.Empty;
     
      [JsonIgnore]
